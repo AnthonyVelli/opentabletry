@@ -12,6 +12,14 @@ const addressSchema = {
         phone: { type: String }
 };
 
+const reservationSchema ={
+    start: {type: String},
+    end: {type: String},
+    id: {type: String},
+    resource: {type: String},
+    text: {type: String}
+};
+
 var restaurantSchema = new Schema({
     name: {
         type: String
@@ -23,7 +31,7 @@ var restaurantSchema = new Schema({
     seating: {
         type: Schema.Types.Mixed
     },
-    reservations: []
+    reservations: [reservationSchema]
 
 });
 

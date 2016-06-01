@@ -12,27 +12,26 @@ app.config(function ($stateProvider) {
     });
 })
 .controller('partner', (($scope, PartnerFact, RestaurantFact, $rootScope, restaurant) => {
+    console.log(restaurant);
     _.merge($scope, PartnerFact.populateCalendar(restaurant));
-    $scope.data = {};
-    $scope.data.selected = false;
+    $scope.selected = false;
     $scope.config.onTimeRangeSelect = (e => {
-        console.log(e);
-        $scope.data.selected = true;
-        $scope.event.start = new Date(e.start.value);
-        $scope.event.end = new Date(e.end.value);
-        $scope.event.resource = e.resource;
+        $scope.event = {
+            start: new DayPilot.Date(e.start.value),
+            end: new DayPilot.Date(e.end.value),
+            id: DayPilot.guid(),
+            resource: e.resource,
+        };
+        $scope.events.push($scope.event);
+        $scope.selected = true;
         $scope.$apply();
     });
-    $scope.event = {};
     $scope.sendEvent = (event => {
-        restaurant.reservations ? restaurant.reservations.push(event) : restaurant.reservations = [event];
+        restaurant.reservations = $scope.dp.events.list;
         RestaurantFact.update(restaurant)
-        .then(updatedRes => {
-            $scope.events.push(updatedRes);
-            $scope.$apply();
-        });
+        .then(updatedRes => $scope.selected = false)
+        .catch(err => console.error(err));
     });
     
-
     
 })); 

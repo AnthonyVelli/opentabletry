@@ -12,20 +12,24 @@ router.param('id', (req, res, next, id) => {
 	.catch(next);
 });
 
+router.get('/:id', function (req, res) {
+    res.json(req.restaurant);
+});
+
 router.get('/', function (req, res, next) {
     Restaurants.find().then(restaurants => res.send(restaurants))
     .catch(next);
-});
-router.get('/:id', function (req, res) {
-    res.json(req.restaurant);
 });
 
 router.put('/', function (req, res, next) {
 	Restaurants.findById(req.body._id)
 	.then(foundRest => {
-		_.merge(foundRest, req.body);
+		delete req.body._id;
+		delete req.body.__v;
+		_.assign(foundRest, req.body);
 		return foundRest.save(); })
-	.then(updatedRest => res.json(updatedRest))
+	.then(updatedRest => {
+		res.json(updatedRest); })
 	.catch(next);
 });
 
