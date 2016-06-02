@@ -1,3 +1,6 @@
 <section id="home">
-
+	<div ng-repeat='rest in restaurants'>
+		<h3>{{rest.name}}</h2>
+		<h3><img src="{{rest.image_url}}"><h3>
+		<h3>Rating - {{rest.rating}}</h3>
 </section>

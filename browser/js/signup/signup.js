@@ -20,8 +20,17 @@ app.config(function ($stateProvider) {
     $scope.error = null;
 
     $scope.sendSignup = function () {
-        $scope.signup.restaurants.seating = $scope.seating;
         $scope.error = null;
+        $scope.signup.type = 'User';
+        UserFact.createOne($scope.signup)
+        .then(usr => {
+            $state.go('home', {id: usr._id}); });
+    };
+
+    $scope.sendPartnerSignup = function () {
+        $scope.error = null;
+        $scope.signup.type = 'Partner';
+        $scope.signup.restaurants.seating = $scope.seating;
         UserFact.createOne($scope.signup)
         .then(usr => {
             $state.go('partner', {id: usr.restaurants[0]}); });

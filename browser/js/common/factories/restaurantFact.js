@@ -8,5 +8,8 @@ app.factory('RestaurantFact', ($http => {
 	fact.update = (rest => {
 		return $http.put('/api/restaurants/', rest).then(rest => rest.data);
 	});
+	fact.getYelp = (() => {
+		return $http.get('/search').then(rest => rest.data);
+	});
 	return fact;
 }));

@@ -18,17 +18,8 @@ var schema = new mongoose.Schema({
     restaurants: [
         {type: Schema.Types.ObjectId, ref: 'User'}
     ],
-    twitter: {
-        id: String,
-        username: String,
-        token: String,
-        tokenSecret: String
-    },
-    facebook: {
-        id: String
-    },
-    google: {
-        id: String
+    type: {
+        type: String
     }
 });
 

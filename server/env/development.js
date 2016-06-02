@@ -1,6 +1,6 @@
 module.exports = {
   "DATABASE_URI": "mongodb://localhost:27017/opentable",
-  "SESSION_SECRET": "Optimus Prime is my real dad",
+  "SESSION_SECRET": "session secret for all time",
   "TWITTER": {
     "consumerKey": "INSERT_TWITTER_CONSUMER_KEY_HERE",
     "consumerSecret": "INSERT_TWITTER_CONSUMER_SECRET_HERE",
@@ -15,5 +15,11 @@ module.exports = {
     "clientID": "INSERT_GOOGLE_CLIENTID_HERE",
     "clientSecret": "INSERT_GOOGLE_CLIENT_SECRET_HERE",
     "callbackURL": "INSERT_GOOGLE_CALLBACK_HERE"
-  }
+  }, 
+  "YELP": {
+    "consumer_key": "jlj619RYkyOR8vogRiz2EA",
+    "consumer_secret": "zhnHtCO-8QY1OSpMa6kmuNUaWp8",
+    "token": "6Qj9ONjeOro-hjWdqk-RetIGsWDyrXgU",
+    "token_secret": "2OgJHe6ft3n4VqsRhYRZ7AI4J-Q"
+ }
 };

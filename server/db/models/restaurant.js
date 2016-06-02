@@ -31,7 +31,8 @@ var restaurantSchema = new Schema({
     seating: {
         type: Schema.Types.Mixed
     },
-    reservations: [reservationSchema]
+    reservations: [reservationSchema],
+    fans: [{type: Schema.Types.ObjectId, ref: 'User'}]
 
 });
 
