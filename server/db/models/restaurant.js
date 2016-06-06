@@ -2,6 +2,7 @@
 import mongoose from 'mongoose';
 import User from './user';
 const Schema = mongoose.Schema;
+const SMR = require('smr');
 
 const addressSchema = {
   address1: { type: String },
@@ -26,7 +27,11 @@ var restaurantSchema = new Schema({
   seating: {type: Schema.Types.Mixed},
   contact: {type: Schema.Types.ObjectId, ref: 'User'},
   reservations: [reservationSchema],
-  fans: [{type: Schema.Types.ObjectId, ref: 'User'}]
+  fans: [{type: Schema.Types.ObjectId, ref: 'User'}],
+  history: {type: Schema.Types.Mixed},
+  observations: [{type: Schema.Types.Mixed}],
+  observationHeaders: []
+
 });
 
 restaurantSchema.statics.createWithContact = function(rest) {
@@ -40,6 +45,28 @@ restaurantSchema.statics.createWithContact = function(rest) {
     return foundContactScope.save(); })
   .then(updatedContact => updatedContact);
 };
+
+restaurantSchema.methods.getRegression = function(){
+  const regression = new SMR.Regression({ numX: 1, numY: 1 });
+  let data = this.observations.map(day => {
+    let key = Object.keys(day)[0];
+    return [day[key][4]];
+  });
+  let dependant = [];
+  for (var day in this.history) {
+    let seatsUsed = this.history[day].reduce((orig, tabl) => {
+      return orig + tabl.size * tabl.occupied;
+    }, 0);
+    dependant.push(seatsUsed);
+  }
+  dependant.forEach((hist, idx) => {
+    console.log({x: data[idx], y: [hist]});
+    regression.push({x: data[idx], y: [hist]});
+  });
+  return regression;
+};
+
+
 
 
 export default mongoose.model('Restaurant', restaurantSchema);

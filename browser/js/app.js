@@ -1,5 +1,5 @@
 'use strict';
-window.app = angular.module('opentable', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'daypilot', 'ngMaterial', 'ngMessages']);
+window.app = angular.module('opentable', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'daypilot', 'ngMaterial', 'nvd3', 'ngMessages']);
 
 app.constant('_', window._);
 

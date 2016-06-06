@@ -3,6 +3,7 @@ import Mongoose from 'mongoose';
 const Restaurants = Mongoose.model('Restaurant');
 var router = require('express').Router();
 var _ = require('lodash');
+const Weather = require('weather-js');
 
 router.param('id', (req, res, next, id) => {
 	Restaurants.findById(id)
@@ -14,6 +15,20 @@ router.param('id', (req, res, next, id) => {
 
 router.get('/:id', function (req, res) {
     res.json(req.restaurant);
+});
+
+router.get('/:id/analytics', function (req, res) {
+    Weather.find({search: 'New York City, NY', degreeType: 'f'}, (err, response) => {
+      if (err) {
+        console.log('weather call failed');
+        res.json(err);
+      } else {
+        let regression = req.restaurant.getRegression();
+        let predictionData = response[0].forecast[3];
+        let prediction = regression.hypothesize({x: [predictionData.high]});
+        res.json([prediction, predictionData]);
+      }
+    });
 });
 
 router.get('/', function (req, res, next) {

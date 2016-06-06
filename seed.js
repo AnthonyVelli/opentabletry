@@ -24,6 +24,46 @@ var chalk = require('chalk');
 var connectToDb = require('./server/db');
 const User = mongoose.model('User');
 const Restaurant = mongoose.model('Restaurant');
+const moment = require('moment');
+const fs = require('fs');
+
+var getWeather = function(){
+  const weather = fs.readFileSync('./server/db/centralpark.csv', 'utf8').split('\n');
+  let headers = weather.shift().split(',').slice(1);
+  let measured = weather.map(day => {
+    let observations = day.split(',');
+    let date = observations.shift();
+    let returnObj = {};
+    returnObj[date] = observations;
+    return returnObj;
+  });
+  return {observations: measured, observationHeaders: headers};
+};  
+
+var createHistory = function(){
+    let historyStart = moment('2015-06-01');
+    let historyEnd = moment('2016-06-02');
+    let hist = {};
+    while (historyStart.isBefore(historyEnd)) {
+      let modifier = 1;
+      let month = historyStart.month();
+      if (month > 10 || month < 3) {
+        modifier = 0.8;
+      } else if (month > 5 && month < 9) {
+        modifier = 1.3;
+      }
+
+      hist[historyStart.format()] = [
+              {size: 2, quantity: 6, occupied: Math.round(Math.random()*6*modifier)},
+              {size: 4, quantity: 5, occupied: Math.round(Math.random()*5*modifier)},
+              {size: 6, quantity: 2, occupied: Math.round(Math.random()*2*modifier)}
+              ];
+
+      historyStart.add(1, 'days');
+    }
+    return hist;
+};
+
 
 var wipeCollections = function () {
     var wipeData = [User.remove({}), Restaurant.remove({})];
@@ -45,22 +85,16 @@ var seedUsers = function (rest) {
             email: 'obama@gmail.com',
             password: 'potus',
             type: 'user'
-
         }
     ];
-
     return User.create(users);
 
 };
 
 var seedRestaurants = function () {
-    let add = {
-        address1: '281 York St.',
-        city: 'Jersey City',
-        state: 'New Jersey',
-        zip: '07302',
-        phone: '201-201-2010'
-    };
+    let hist = createHistory();
+    let weather = getWeather();
+    console.log(weather.observationHeaders);
 
     let restaurants = [{
         name: 'mcdonalds',
@@ -98,7 +132,10 @@ var seedRestaurants = function () {
           {size: 2, quantity: 3},
           {size: 4, quantity: 3},
           {size: 6, quantity: 3}
-        ]
+        ],
+        history: hist,
+        observations: weather.observations,
+        observationHeaders: weather.observationHeaders
       }, {
         name: 'Burger King',
         address: {

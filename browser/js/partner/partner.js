@@ -31,6 +31,7 @@ app.config($stateProvider => {
         },
       controller: ($scope, RestaurantFact, $state, foundPartner) => {
         $scope.restaurant = {};
+        $scope.restaurant.seating = [{size: 0, quantity: 0}];
         $scope.submitcall = toUpdate => {
           toUpdate.contact = foundPartner._id;
           RestaurantFact.createOne(toUpdate)
@@ -43,13 +44,30 @@ app.config($stateProvider => {
       url: '/editrez/{restaurant: json}',
       template: '<edit-rez events="events" config="config" restaurant="restaurant"></edit-rez>',
       resolve: {
-            foundPartner: AuthService => AuthService.getLoggedInUser(true),
-            calendarInfo: (CalendarFact, $stateParams) => CalendarFact.populateCalendar($stateParams.restaurant)
+          calendarInfo: (CalendarFact, $stateParams) => CalendarFact.populateCalendar($stateParams.restaurant)
         },
       controller: ($scope, CalendarFact, calendarInfo, $stateParams) => {
         $scope.events = calendarInfo.events;
         $scope.config = calendarInfo.config; 
         $scope.restaurant = $stateParams.restaurant;
+      }
+    })
+    .state('partner.analyzerest', {
+      url: '/analyzerest/{restaurant: json}',
+      template: '<lin-reg data="data" options="options"></lin-reg>',
+      resolve: {
+            foundPartner: AuthService => AuthService.getLoggedInUser(true),
+            chartData: (ChartFact, $stateParams) => ChartFact.getChart($stateParams.restaurant),
+            regression: (RestaurantFact, $stateParams) => {
+              return RestaurantFact.getAnalytics($stateParams.restaurant._id)
+              .then(analytics => analytics)
+              .catch(err => console.error(err));
+            }
+        },
+      controller: ($scope, chartData, regression) => {
+        console.log(regression);
+        $scope.options = chartData.options;
+        $scope.data = chartData.data;
       }
     });
 })

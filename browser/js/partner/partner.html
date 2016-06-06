@@ -18,7 +18,7 @@
 					</md-menu>
 					<md-menu>
 						<button class="md-primary md-hue-1" ng-click="$mdOpenMenu()">
-							Edit Restaurant Details
+							Edit Restaurants
 						</button>
 						<md-menu-content>
 							<md-menu-item ng-repeat="restaurant in restaurants">
@@ -26,9 +26,26 @@
 									{{restaurant.name}}
 								</md-button>
 							</md-menu-item>
+              <md-menu-item>
+                <md-button ui-sref="partner.newrest">
+                  Add New Restaurant
+                </md-button>
+              </md-menu-item>
 						</md-menu-content>
 					</md-menu>
-					<md-menu>
+          <md-menu>
+            <button class="md-primary md-hue-1" ng-click="$mdOpenMenu()">
+              Analyze Restaurants
+            </button>
+            <md-menu-content>
+              <md-menu-item ng-repeat="restaurant in restaurants">
+                <md-button ui-sref="partner.analyzerest({restaurant: restaurant})">
+                  {{restaurant.name}}
+                </md-button>
+              </md-menu-item>
+            </md-menu-content>
+          </md-menu>
+          <md-menu>
 						<button ng-click="$mdOpenMenu()">
 							Contact Customers
 						</button>
@@ -45,9 +62,6 @@
 							</md-menu-item>
 						</md-menu-content>
 					</md-menu>
-          <md-button class="md-primary" ui-sref="partner.newrest">
-            Add Restaurant
-          </md-button>
 				</md-menu-bar>
 			</md-toolbar>
 		</md-sidenav>
