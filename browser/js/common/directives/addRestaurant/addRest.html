@@ -1,81 +1,71 @@
-<h3>Add Your Restaurant</h3>
+<md-content layout-padding>
+	<div>
+		<form name="userForm" layout='column' ng-submit='submitForm()'>
+      <div layout="row" class="md-title">
+        RESTAURANT
+      </div>
+        <md-input-container class="md-block" flex-gt-xs>
+          <input ng-model="restaurant.name" required>
+        </md-input-container>
+        <md-input-container class="md-block">
+          <label>Address</label>
+          <input ng-model="restaurant.address.address1" required placeholder="Address">
+        </md-input-container>
+        <md-input-container md-no-float class="md-block">
+          <input ng-model="restaurant.address.address2" placeholder="Address 2">
+        </md-input-container>
+      <div layout-gt-sm="row">
+        <md-input-container class="md-block" flex-gt-sm>
+         <label>City</label>
+         <input ng-model="restaurant.address.city" required>
+       </md-input-container>
+       <md-input-container class="md-block" flex-gt-sm>
+         <label>State</label>
+         <md-select ng-model="restaurant.address.state" required>
+          <md-option ng-repeat="state in states" value="{{state.abbrev}}">
+           {{state.abbrev}}
+         </md-option>
+       </md-select>
+     </md-input-container>
+     <md-input-container class="md-block" flex-gt-sm>
+       <label>Postal Code</label>
+       <input name="postalCode" ng-model="restaurant.address.zip" placeholder="12345" required ng-pattern="/^[0-9]{5}$/">
+       <div ng-messages="userForm.postalCode.$error" role='alert'>
+        <div ng-message="pattern" role='alert' class="my-message">Please enter zip code in the format of 55555.</div>
+      </div>
+    </md-input-container>
+  </div>
+  <md-input-container class="md-block" flex-gt-sm>
+    <label>Phone Number</label>
+    <input name="phoneNumber" ng-model="restaurant.address.phone" placeholder="555-555-5555" required ng-pattern="/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/">
+    <div ng-messages="userForm.phoneNumber.$error" role='alert'>
+      <div ng-message="pattern" role='alert' class="my-message">Please enter phone number in the format of 555-555-5555.</div>
+    </div>
+  </md-input-container>
 
-<form id="new-rest-form" name="newRestForm" >
+  <div layout="row" class="md-title">
+    SEATING
+  </div>
 
-    <div class="form-group">
-        <label for="Name">Name</label>
-        <input type="text" ng-model="signup.restaurants.name" class="form-control" id="signup.restaurants.name" placeholder="Restaurant Name">
-    </div>
-    <div class="form-group">
-        <label for="Address1">Address</label>
-        <input type="text" ng-model="signup.restaurants.address1" class="form-control" id="signup.restaurants.address1" placeholder="Restaurant Address">
-    </div>
-    <div class="form-group">
-        <label for="Address2">Address</label>
-        <input type="text" ng-model="signup.restaurants.address2" class="form-control" id="signup.restaurants.address2" placeholder="Restaurant Address">
-    </div>
-    <div class="form-group">
-        <label for="City">City</label>
-        <input type="text" ng-model="signup.restaurants.city" class="form-control" id="signup.restaurants.city" placeholder="Restaurant City">
-    </div>
-    <div class="form-group">
-        <label for="State">State</label>
-        <input type="text" ng-model="signup.restaurants.state" class="form-control" id="signup.restaurants.state" placeholder="Restaurant State">
-    </div>
-    <div class="form-group">
-        <label for="Zip">Zip</label>
-        <input type="text" ng-model="signup.restaurants.zip" class="form-control" id="signup.restaurants.zip" placeholder="Restaurant Zip">
-    </div>
-    <div class="form-group">
-        <label for="Phone">Phone</label>
-        <input type="text" ng-model="signup.restaurants.phone" class="form-control" id="signup.restaurants.phone" placeholder="Restaurant Phone">
-    </div>
+  <div ng-repeat="table in restaurant.seating" layout-gt-sm="row" layout-margin='5%' layout-align='left center'>
+    <md-input-container flex='initial'>
+      <input placeholder='Number of Tables' required type="number" name="rate" ng-model="table.quantity" min="1">
+    </md-input-container>
+    <p> tables that seat </p>
+    <md-input-container flex='initial'>
+      <input placeholder='Table Size' required name="rate" ng-model="table.size" min="1">
+    </md-input-container>
+    <md-button class="glyphicon glyphicon-plus" ng-show='$last' ng-click='addTable()'></md-button>
+  </div>
 
-    <h3>Restaurant Seating</h3>
-
-        <table>
-            <tr>
-                <th>Table Size<th>
-                <th>Max Occupancy<th>
-            <tr>
-            <tr></tr>
-            <tr>
-                <td>One<td>
-                <td>
-                <div class="form-group">
-                <input type="text" ng-model="seating.one" placeholder="Tables of One"></div><td>
-            <tr>
-            <tr>
-                <td>Two<td>
-                <td>
-                <div class="form-group">
-                <input type="text" ng-model="seating.two" placeholder="Tables of Two"></div><td>
-            <tr>
-            <tr>
-                <td>Three<td>
-                <td>
-                <div class="form-group">
-                <input type="text" ng-model="seating.three" placeholder="Tables of Three"></div><td>
-            <tr>
-            <tr>
-                <td>Four<td>
-                <td>
-                <div class="form-group">
-                <input type="text" ng-model="seating.four" placeholder="Tables of Four"></div><td>
-            <tr>
-            <tr>
-                <td>Five<td>
-                <td>
-                <div class="form-group">
-                <input type="text" ng-model="seating.five" placeholder="Tables of Five"></div><td>
-            <tr>
-            <tr>
-                <td>Six<td>
-                <td>
-                <div class="form-group">
-                <input type="text" ng-model="seating.six" placeholder="Tables of Six"></div><td>
-            <tr>
-        </table>
-    
+  <div layout-align='center'>
+    <md-button type="button" ng-click="reset()">RESET</md-button>
+    <md-button type="submit" ng-disabled="userForm.$invalid" class="md-primary">SUBMIT</md-button>
+    <div ng-messages="userForm.$error" role='alert'>
+      <div ng-message="required" role='alert' class="my-message"></div>
+    </div>
+  </div>
 
 </form>
+</div>
+</md-content>

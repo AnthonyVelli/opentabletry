@@ -1,9 +1,9 @@
 'use strict';
-window.app = angular.module('opentable', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'daypilot']);
+window.app = angular.module('opentable', ['fsaPreBuilt', 'ui.router', 'ui.bootstrap', 'ngAnimate', 'daypilot', 'ngMaterial', 'ngMessages']);
 
 app.constant('_', window._);
 
-app.config(function ($urlRouterProvider, $locationProvider) {
+app.config(function ($urlRouterProvider, $locationProvider, $mdThemingProvider) {
     // This turns off hashbang urls (/#about) and changes it to something normal (/about)
     $locationProvider.html5Mode(true);
     // If we go to a URL that ui-router doesn't have registered, go to the "/" url.
@@ -12,6 +12,11 @@ app.config(function ($urlRouterProvider, $locationProvider) {
     $urlRouterProvider.when('/auth/:provider', function () {
         window.location.reload();
     });
+
+    $mdThemingProvider.theme('default')
+    .primaryPalette('blue-grey')
+    .accentPalette('amber')
+    .warnPalette('red');
 });
 
 // This app.run is for controlling access to specific states.

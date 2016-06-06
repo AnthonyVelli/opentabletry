@@ -13,23 +13,18 @@ var ensureAuthenticated = function (req, res, next) {
     }
 };
 
-router.param('id', (req, res, next, id) => {
-	User.findById(id)
-	.then(user => {
-		req.user = user;
-		next(); })
-	.catch(next);
+
+router.get('/:id', ensureAuthenticated, (req, res, next) => {
+	res.json(req.user);
 });
 
-router.get('/', function (req, res, next) {
+router.get('/', ensureAuthenticated, (req, res, next) => {
 	User.find()
 	.then(users => res.json(users))
-	.catch(nxt => {
-		console.log(nxt)
-		next(); });
+	.catch(next); 
 });
 
-router.post('/', function (req, res, next) {
+router.post('/', (req, res, next) => {
     User.createAll(req.body)
     .then(newUsr => res.json(newUsr))
     .catch(next);

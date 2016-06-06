@@ -1,6 +1,37 @@
-<section id="home">
-	<div ng-repeat='rest in restaurants'>
-		<h3>{{rest.name}}</h2>
-		<h3><img src="{{rest.image_url}}"><h3>
-		<h3>Rating - {{rest.rating}}</h3>
+<md-content>
+	<md-list class='md-primary' flex>
+		<md-list-item ng-repeat='rest in restaurants' class='md-3-line' layout='row'>
+			<img ng-src="{{rest.image_url}}" class='md-avatar'/>
+			<div class ='md-list-item-text' layout ='column'>
+				<h3>{{rest.name}}</h3>
+				<h3>Rating - {{rest.rating}}</h3>
+				<daypilot-scheduler id="rest._id" daypilot-config="config" daypilot-events="rest.events" ></daypilot-scheduler>
+			</div>
+		</md-list-item>
+	</md-list>
+</md-content>
+	
+	<form ng-show='selected' class='event-form' id="event-form" name="eventForm" ng-submit="eventForm.$valid && sendEvent(event)">
+
+	    <div class="form-group">
+	        <label for="res-start">Reservation Start</label>
+	        <input type="string" ng-model="event.start.value" class="form-control" id="res-start" placeholder="Reservation Start">
+	    </div>
+	    <div class="form-group">
+	        <label for="res-end">Reservation End</label>
+	        <input type="string" ng-model="event.end.value" class="form-control" id="res-end" placeholder="Reservation End">
+	    </div>
+	    <div class="form-group">
+	        <label for="res-text">Reservation Size</label>
+	        <input type="resource" ng-model="event.resource" class="form-control" id="res-resource" placeholder="Reservation Size">
+	    </div>
+	    <div class="form-group">
+	        <label for="res-text">Reserving Party</label>
+	        <input type="text" ng-model="event.text" class="form-control" id="res-text" placeholder="Reserving Party">
+	    </div>
+
+
+	    <button type="submit" class="btn btn-default">Confirm</button>
+	</form>
+
 </section>

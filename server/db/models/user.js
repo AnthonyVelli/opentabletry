@@ -16,7 +16,7 @@ var schema = new mongoose.Schema({
         type: String
     },
     restaurants: [
-        {type: Schema.Types.ObjectId, ref: 'User'}
+        {type: Schema.Types.ObjectId, ref: 'Restaurant'}
     ],
     type: {
         type: String

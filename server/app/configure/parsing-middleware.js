@@ -9,8 +9,6 @@ module.exports = function (app) {
     // because what is a session without a cookie?
     // No session at all.
  
-// inside middleware handler 
-
 	app.use(requestIp.mw());
     app.use(cookieParser());
 

@@ -1,0 +1,13 @@
+<md-content class='md-primary' id="home">
+	<md-list flex>
+		<md-list-item ng-repeat='rest in restaurants'>
+			<h3>{{rest.name}}</h3>
+			<h3><img src="{{rest.image_url}}"><h3>
+			<h3>Rating - {{rest.rating}}</h3>
+			<daypilot-scheduler id="rest._id" daypilot-config="config" daypilot-events="rest.events" ></daypilot-scheduler>
+		</md-list-item>
+	</md-list>
+</md-content>
+	
+
+</section>

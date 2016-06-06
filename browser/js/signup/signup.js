@@ -14,26 +14,30 @@ app.config(function ($stateProvider) {
 
 
 })
-.controller('SignupCtrl', ($scope, UserFact, $state) => {
+.controller('SignupCtrl', ($scope, UserFact, $rootScope, $state) => {
     $scope.signup = {};
     $scope.seating = {};
     $scope.error = null;
 
     $scope.sendSignup = function () {
         $scope.error = null;
-        $scope.signup.type = 'User';
+        $scope.signup.type = 'user';
         UserFact.createOne($scope.signup)
         .then(usr => {
             $state.go('home', {id: usr._id}); });
     };
 
-    $scope.sendPartnerSignup = function () {
+    $scope.sendSignup = function () {
         $scope.error = null;
-        $scope.signup.type = 'Partner';
-        $scope.signup.restaurants.seating = $scope.seating;
+        if ($rootScope.url === "/signup-partner") {
+            $scope.signup.type = 'partner';
+            $scope.signup.restaurants.seating = $scope.seating;
+        } else {
+            $scope.signup.type = 'user';
+        }
         UserFact.createOne($scope.signup)
         .then(usr => {
-            $state.go('partner', {id: usr.restaurants[0]}); });
+            $state.go($scope.signup.type, {id: usr._id}); });
     };
 
 });

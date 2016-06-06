@@ -1,0 +1,20 @@
+{
+  "name": "opentable",
+  "description": "A generated project at Fullstack Academy",
+  "main": "server/start.js",
+  "authors": [
+    "Anthony Velli <anthony.velli@gmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/AnthonyVelli/opentabletry",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "moment": "^2.13.0"
+  }
+}

@@ -34,8 +34,8 @@ router.put('/', function (req, res, next) {
 });
 
 router.post('/', (req, res, next) => {
-	Restaurants.create(req.body)
-	.then(newRest => res.send(newRest))
+	Restaurants.createWithContact(req.body)
+	.then(updatedUsr => res.send(updatedUsr))
 	.catch(next);
 });
 

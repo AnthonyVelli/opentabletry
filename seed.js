@@ -23,26 +23,29 @@ var Promise = require('bluebird');
 var chalk = require('chalk');
 var connectToDb = require('./server/db');
 const User = mongoose.model('User');
-const Restaurant = mongoose.model('Restaurant');;
+const Restaurant = mongoose.model('Restaurant');
 
 var wipeCollections = function () {
-    var wipeData = [User.remove({})];
-    wipeData.push(Restaurant.remove({}));
+    var wipeData = [User.remove({}), Restaurant.remove({})];
+    
     return Promise.all(
         wipeData
     );
 };
 
-var seedUsers = function () {
-
+var seedUsers = function (rest) {
     var users = [
         {
             email: 'testing@fsa.com',
-            password: 'password'
+            password: 'password',
+            restaurants: [rest],
+            type: 'partner'
         },
         {
             email: 'obama@gmail.com',
-            password: 'potus'
+            password: 'potus',
+            type: 'user'
+
         }
     ];
 
@@ -50,7 +53,7 @@ var seedUsers = function () {
 
 };
 
-var seedRestaurants = function (adminID) {
+var seedRestaurants = function () {
     let add = {
         address1: '121 Jones St.',
         city: 'Jersey City',
@@ -60,17 +63,15 @@ var seedRestaurants = function (adminID) {
     };
 
     let restaurants = [{
+        name: 'mcdonalds',
         address: add,
-        admin: adminID,
-        seating: {
-            1: 50,
-            2: 25,
-            3: 15,
-            4: 10,
-            5: 3,
-            6: 1
-        }
-    }];
+        seating: [
+          {size: 2, quantity: 10},
+          {size: 4, quantity: 10},
+          {size: 6, quantity: 3}
+        ]
+      }];
+
 
 
     return Restaurant.create(restaurants);
@@ -81,11 +82,11 @@ connectToDb
     .then(function () {
         return wipeCollections();
     })
-    .then(function () {
-        return seedUsers();
+    .then(function() {
+        return seedRestaurants();
     })
-    .then(function(users) {
-        return seedRestaurants(users[0]);
+    .then(function (restaurants) {
+        return seedUsers(restaurants[0]);
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));

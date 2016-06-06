@@ -10,7 +10,7 @@ module.exports = app => {
 			yelpQuery.location ='Jersey City';
 		} else {
 			let location = geoip.lookup(req.clientIp);
-			yelpQuery =  {location: location.city, cll: location.ll.join(', ')};
+			yelpQuery =  {term: 'restaurants', sort: 1, location: location.city, cll: location.ll.join(', ')};
 		}
 		yelp.search(yelpQuery)
 			.then(searchHits => res.json(searchHits))

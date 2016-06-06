@@ -1,26 +1,56 @@
-<div>
-	<daypilot-scheduler id="dp" daypilot-config="config" daypilot-events="events" ></daypilot-scheduler>
-	<form ng-show='selected' class='event-form' id="event-form" name="eventForm" ng-submit="eventForm.$valid && sendEvent(event)">
-
-	    <div class="form-group">
-	        <label for="res-start">Reservation Start</label>
-	        <input type="string" ng-model="event.start.value" class="form-control" id="res-start" placeholder="Reservation Start">
-	    </div>
-	    <div class="form-group">
-	        <label for="res-end">Reservation End</label>
-	        <input type="string" ng-model="event.end.value" class="form-control" id="res-end" placeholder="Reservation End">
-	    </div>
-	    <div class="form-group">
-	        <label for="res-text">Reservation Size</label>
-	        <input type="resource" ng-model="event.resource" class="form-control" id="res-resource" placeholder="Reservation Size">
-	    </div>
-	    <div class="form-group">
-	        <label for="res-text">Reserving Party</label>
-	        <input type="text" ng-model="event.text" class="form-control" id="res-text" placeholder="Reserving Party">
-	    </div>
-
-
-	    <button type="submit" class="btn btn-default">Confirm</button>
-	</form>
-
+<div layout="row">
+	<div flex-order='20'>
+		<md-sidenav class="md-sidenav-right" md-component-id="right" md-is-locked-open="true">
+			<md-toolbar>
+				<h1 layout-align="center center" class="md-toolbar-tools">Partner Tools</h1>
+				<md-menu-bar layout='column'>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							Edit Reservations
+						</button>
+						<md-menu-content>
+							<md-menu-item ng-repeat="restaurant in restaurants">
+								<md-button ui-sref="partner.editrez({restaurant: restaurant})">
+									{{restaurant.name}}
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button class="md-primary md-hue-1" ng-click="$mdOpenMenu()">
+							Edit Restaurant Details
+						</button>
+						<md-menu-content>
+							<md-menu-item ng-repeat="restaurant in restaurants">
+								<md-button ui-sref="partner.editrest({restaurant: restaurant})">
+									{{restaurant.name}}
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+					<md-menu>
+						<button ng-click="$mdOpenMenu()">
+							Contact Customers
+						</button>
+						<md-menu-content>
+							<md-menu-item>
+								<md-button ng-click="sendDeal($event)">
+									Send Deal
+								</md-button>
+							</md-menu-item>
+							<md-menu-item>
+								<md-button ng-click="notify($event)">
+									Send Notification
+								</md-button>
+							</md-menu-item>
+						</md-menu-content>
+					</md-menu>
+          <md-button class="md-primary" ui-sref="partner.newrest">
+            Add Restaurant
+          </md-button>
+				</md-menu-bar>
+			</md-toolbar>
+		</md-sidenav>
+	</div>
+	<div flex-order='1' flex ui-view></div>
 </div>
