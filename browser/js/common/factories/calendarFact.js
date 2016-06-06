@@ -14,7 +14,10 @@ app.factory('CalendarFact', () => {
     businessWeekends: true,
     showNonBusiness: false,
 		resources: [],
+    autoRefreshEnabled: true,
+    autoRefreshInterval: 10,
     treeAutoExpand: false,
+    dynamicLoading: true,
     treeEnabled: true,
 		timeHeaders: [
       { groupBy: "Day"},
@@ -24,7 +27,7 @@ app.factory('CalendarFact', () => {
 
 	fact.populateCalendar = (restaurant => {
     config.resources = restaurant.seating.map(tbls => {
-        let resource = {name: 'Tables of '+tbls.size.toString(), dynamicChildren: true, id: tbls.size.toString(), expanded: true, children: []};
+        let resource = {name: 'Tables of '+tbls.size.toString(), dynamicChildren: true, id: tbls.size.toString(), expanded: false, children: []};
         for (var x = 0; x < tbls.quantity; x++) {
           resource.children.push({name: tbls.size.toString()+'.'+(x+1).toString(), id: tbls.size.toString()+'.'+(x+1)});
         }

@@ -9,15 +9,11 @@ app.directive('editRez', (CalendarFact, RestaurantFact) => {
     },
     templateUrl: 'js/common/directives/calendar/calendarDir.html',
     link: (scope => {
-      scope.dp = new DayPilot.Scheduler("dp");
-      _.assign(scope.dp, scope.config);
-      scope.dp.events.list = scope.events;
-      scope.dp.init();
 
       scope.dp.onEventClicked = e => {
+        console.log(e.e.data);
         scope.event = e.e.data;
         scope.selected = true;
-        scope.dp.update();
         scope.$apply();
       };
 
@@ -25,21 +21,27 @@ app.directive('editRez', (CalendarFact, RestaurantFact) => {
         if (scope.event) {
           scope.deleteEvent(scope.event);
         }
-        scope.event = new DayPilot.Event({
+        scope.dp.clearSelection();
+        scope.event = {
           start: new DayPilot.Date(e.start.value, true),
           end: new DayPilot.Date(e.end.value, true),
           id: DayPilot.guid(),
           resource: e.resource
-        });
-        scope.dp.events.add(event);
+        };
+        scope.events.push(scope.event);
         scope.selected = true;
-        scope.dp.update();
         scope.$apply();
       };
 
       scope.deleteEvent = (id) => {
-        scope.dp.events.remove(scope.dp.events.find(id));
-        scope.selected = false;
+        let deleteIDX = scope.events.findIndex(event => event.id = id);
+        scope.events.splice(deleteIDX, 1);
+        scope.restaurant.reservations = scope.events;
+        RestaurantFact.update(scope.restaurant)
+          .then(updatedRest => {
+            scope.selected = false;
+            scope.event = null; })
+          .catch(error => console.error(error));
       };
 
       scope.submitForm = () => {
@@ -47,10 +49,9 @@ app.directive('editRez', (CalendarFact, RestaurantFact) => {
         scope.restaurant.reservations = scope.dp.events.list;
         RestaurantFact.update(scope.restaurant)
           .then(updatedRest => {
-            scope.dp.update();
-            console.log(updatedRest);
-            scope.event = {};
-            scope.selected = false; })
+            scope.$apply();
+            scope.selected = false; 
+            scope.event = null; })
           .catch(error => console.error(error));
       };
     })

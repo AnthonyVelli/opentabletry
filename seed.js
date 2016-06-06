@@ -38,7 +38,7 @@ var seedUsers = function (rest) {
         {
             email: 'testing@fsa.com',
             password: 'password',
-            restaurants: [rest],
+            restaurants: rest,
             type: 'partner'
         },
         {
@@ -55,7 +55,7 @@ var seedUsers = function (rest) {
 
 var seedRestaurants = function () {
     let add = {
-        address1: '121 Jones St.',
+        address1: '281 York St.',
         city: 'Jersey City',
         state: 'New Jersey',
         zip: '07302',
@@ -64,10 +64,83 @@ var seedRestaurants = function () {
 
     let restaurants = [{
         name: 'mcdonalds',
-        address: add,
+        address: {
+            address1: '281 York St.',
+            city: 'Jersey City',
+            state: 'New Jersey',
+            zip: '07302',
+            phone: '201-201-2010'
+        },
+        reservations: [
+            {
+            start: '2016-06-06T15:30:00',
+            end: '2016-06-06T17:30:00',
+            id: 6,
+            resource: '4',
+            text: 'brehnhoffer'
+          },
+          {
+            start: '2016-06-06T16:30:00',
+            end: '2016-06-06T18:30:00',
+            id: 7,
+            resource: '4',
+            text: 'jones'
+          },
+          {
+            start: '2016-06-06T15:30:00',
+            end: '2016-06-06T17:00:00',
+            id: 8,
+            resource: '4',
+            text: 'smith'
+          }
+        ],
         seating: [
-          {size: 2, quantity: 10},
-          {size: 4, quantity: 10},
+          {size: 2, quantity: 3},
+          {size: 4, quantity: 3},
+          {size: 6, quantity: 3}
+        ]
+      }, {
+        name: 'Burger King',
+        address: {
+            address1: '277 York St.',
+            city: 'Jersey City',
+            state: 'New Jersey',
+            zip: '07302',
+            phone: '201-201-2010'
+        },
+        reservations: [
+            {
+            start: '2016-06-06T15:30:00',
+            end: '2016-06-06T17:30:00',
+            id: 2,
+            resource: '6',
+            text: 'kleinman'
+          },
+          {
+            start: '2016-06-06T16:30:00',
+            end: '2016-06-06T18:30:00',
+            id: 3,
+            resource: '4',
+            text: 'escadara'
+          },
+          {
+            start: '2016-06-06T15:30:00',
+            end: '2016-06-06T17:00:00',
+            id: 4,
+            resource: '4',
+            text: 'ronson'
+          },
+          {
+            start: '2016-06-06T17:30:00',
+            end: '2016-06-06T19:00:00',
+            id: 5,
+            resource: '2',
+            text: 'ronson'
+          }
+        ],
+        seating: [
+          {size: 2, quantity: 3},
+          {size: 4, quantity: 4},
           {size: 6, quantity: 3}
         ]
       }];
@@ -86,7 +159,7 @@ connectToDb
         return seedRestaurants();
     })
     .then(function (restaurants) {
-        return seedUsers(restaurants[0]);
+        return seedUsers(restaurants);
     })
     .then(function () {
         console.log(chalk.green('Seed successful!'));
