@@ -1,11 +1,8 @@
 **Installation**
 - git clone
 - npm install
-- bower install
-- babel-node seed
-- gulp
+- babel-node seed.  May need to run ```npm install babel-cli```for this to work.  
 - npm start
-
-
-- url /signup-partner goes to the partner (restaurant) creation page.  this page creates a user, a restaurant, and associates the two in mongo.
-- after partner logs in, they are taken to /partner.  there they will be able to edit their reservations.  currently they can click on the calendar, and persist a single reservation in mongo.  
+- http://localhost:1337/login
+- login - testing@fsa.com
+- password - password
