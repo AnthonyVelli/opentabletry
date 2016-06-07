@@ -13,8 +13,9 @@ router.param('id', (req, res, next, id) => {
 	.catch(next);
 });
 
-router.get('/:id', function (req, res) {
-    res.json(req.restaurant);
+router.get('/', function (req, res, next) {
+    Restaurants.find().then(restaurants => res.send(restaurants))
+    .catch(next);
 });
 
 router.get('/:id/analytics', function (req, res) {
@@ -26,17 +27,19 @@ router.get('/:id/analytics', function (req, res) {
         let regression = req.restaurant.getRegression();
         let predictionData = response[0].forecast[3];
         let prediction = regression.hypothesize({x: [predictionData.high]});
-        res.json([prediction, predictionData]);
+        res.json([prediction, predictionData, req.restaurant]);
       }
     });
 });
 
-router.get('/', function (req, res, next) {
-    Restaurants.find().then(restaurants => res.send(restaurants))
-    .catch(next);
+router.get('/:id', function (req, res) {
+    delete req.restaurant.observations;
+    delete req.restaurant.history;
+    res.json(req.restaurant);
 });
 
 router.put('/', function (req, res, next) {
+  console.log('in put route');
 	Restaurants.findById(req.body._id)
 	.then(foundRest => {
 		delete req.body._id;

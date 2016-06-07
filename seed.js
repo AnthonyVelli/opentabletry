@@ -32,7 +32,7 @@ var getWeather = function(){
   let headers = weather.shift().split(',').slice(1);
   let measured = weather.map(day => {
     let observations = day.split(',');
-    let date = observations.shift();
+    let date = moment(observations.shift());
     let returnObj = {};
     returnObj[date] = observations;
     return returnObj;

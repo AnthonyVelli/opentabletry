@@ -47,9 +47,9 @@ app.directive('editRez', (CalendarFact, RestaurantFact) => {
       scope.submitForm = () => {
         scope.event = null;
         scope.restaurant.reservations = scope.dp.events.list;
+        console.log(scope.restaurant);
         RestaurantFact.update(scope.restaurant)
           .then(updatedRest => {
-            scope.$apply();
             scope.selected = false; 
             scope.event = null; })
           .catch(error => console.error(error));

@@ -1,3 +1,30 @@
 <div>
+ <md-toolbar class="md-warn">
+    <div class="md-toolbar-tools" layout='column'>
+      <h1 class="md-flex">{{prediction[2].name}}</h2>
+      <h2 class="md-flex">Analytics</h2>
+    </div>
+    <div class ="md-toolbar-tools">
+      <table class='table'>
+        <tbody>
+          <tr>
+            <th scope='row'></th>
+            <td>Tomorrow's Temperature</td>
+            <td>{{prediction[1].high}}&#8457</td>
+          </tr>
+          <tr>
+            <th scope='row'></th>
+            <td>Customers per Hour Prediction</td>
+            <td>{{prediction[0]}}</td>
+          </tr>
+          <tr>
+            <th scope='row'></th>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </md-toolbar>
   <nvd3 options="options" data="data"></nvd3>
 </div>

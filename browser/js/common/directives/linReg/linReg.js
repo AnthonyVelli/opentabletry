@@ -4,7 +4,8 @@ app.directive('linReg', () => {
 		restrict: 'E',
 		scope: {
 			options: '=',
-			data: '='
+			data: '=',
+      prediction: '='
 		},
 		templateUrl: 'js/common/directives/linReg/linReg.html'
 	};

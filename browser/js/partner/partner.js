@@ -9,13 +9,18 @@ app.config($stateProvider => {
         }
     })
     .state('partner.editrest', {
-      url: '/editrest/{restaurant: json}',
+      url: '/editrest/:restaurant',
       template: '<add-rest submitcall="submitcall" restaurant="restaurant"></add-rest>',
       resolve: {
-            foundPartner: AuthService => AuthService.getLoggedInUser(true)
-        },
-      controller: ($scope, $stateParams, $state, RestaurantFact) => {
-        $scope.restaurant = $stateParams.restaurant;
+        restaurant: (RestaurantFact, $stateParams) => {
+          console.log('resolving again');
+          return RestaurantFact.getOne($stateParams.restaurant)
+          .then(rest => rest)
+          .catch(err => console.error(err));
+        }
+      },
+      controller: ($scope, $stateParams, $state, restaurant, RestaurantFact) => {
+        $scope.restaurant = restaurant;
         $scope.submitcall = toUpdate => {
           RestaurantFact.update(toUpdate)
           .then(updatedRst => $state.go('partner'))
@@ -26,9 +31,6 @@ app.config($stateProvider => {
     .state('partner.newrest', {
       url: '/newrest',
       template: '<add-rest submitcall="submitcall" restaurant="restaurant"></add-rest>',
-      resolve: {
-            foundPartner: AuthService => AuthService.getLoggedInUser(true)
-        },
       controller: ($scope, RestaurantFact, $state, foundPartner) => {
         $scope.restaurant = {};
         $scope.restaurant.seating = [{size: 0, quantity: 0}];
@@ -41,38 +43,45 @@ app.config($stateProvider => {
       }
     })
     .state('partner.editrez', {
-      url: '/editrez/{restaurant: json}',
+      url: '/editrez/:restaurant',
       template: '<edit-rez events="events" config="config" restaurant="restaurant"></edit-rez>',
       resolve: {
-          calendarInfo: (CalendarFact, $stateParams) => CalendarFact.populateCalendar($stateParams.restaurant)
+        restaurant: (RestaurantFact, $stateParams) => {
+          return RestaurantFact.getOne($stateParams.restaurant)
+          .then(rest => rest)
+          .catch(err => console.error(err));
         },
-      controller: ($scope, CalendarFact, calendarInfo, $stateParams) => {
+          calendarInfo: (CalendarFact, restaurant) => CalendarFact.populateCalendar(restaurant)
+        },
+      controller: ($scope, calendarInfo, restaurant) => {
         $scope.events = calendarInfo.events;
         $scope.config = calendarInfo.config; 
-        $scope.restaurant = $stateParams.restaurant;
+        $scope.restaurant = restaurant;
       }
     })
     .state('partner.analyzerest', {
-      url: '/analyzerest/{restaurant: json}',
-      template: '<lin-reg data="data" options="options"></lin-reg>',
+      url: '/analyzerest/:restaurant',
+      template: '<lin-reg prediction="regression" data="data" options="options"></lin-reg>',
       resolve: {
-            foundPartner: AuthService => AuthService.getLoggedInUser(true),
-            chartData: (ChartFact, $stateParams) => ChartFact.getChart($stateParams.restaurant),
             regression: (RestaurantFact, $stateParams) => {
-              return RestaurantFact.getAnalytics($stateParams.restaurant._id)
+              return RestaurantFact.getAnalytics($stateParams.restaurant)
               .then(analytics => analytics)
               .catch(err => console.error(err));
-            }
+            },
+            chartData: (ChartFact, regression) => ChartFact.getChart(regression[2])
         },
       controller: ($scope, chartData, regression) => {
-        console.log(regression);
-        $scope.options = chartData.options;
+        regression[0] = Math.round(regression[0][0]);
+        $scope.regression = regression;
         $scope.data = chartData.data;
+        $scope.options = chartData.options;
       }
     });
 })
 .controller('partner', ($scope, $state, foundPartner) => {
-    $scope.restaurants = foundPartner.restaurants;
+    $scope.restaurants = foundPartner.restaurants.map(rest => {
+      return {name: rest.name, _id: rest._id};
+    });
     $scope.sendDeal = ($event) => {
         
         console.log($event);

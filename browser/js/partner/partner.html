@@ -10,7 +10,7 @@
 						</button>
 						<md-menu-content>
 							<md-menu-item ng-repeat="restaurant in restaurants">
-								<md-button ui-sref="partner.editrez({restaurant: restaurant})">
+								<md-button ui-sref="partner.editrez({restaurant: restaurant._id})">
 									{{restaurant.name}}
 								</md-button>
 							</md-menu-item>
@@ -22,7 +22,7 @@
 						</button>
 						<md-menu-content>
 							<md-menu-item ng-repeat="restaurant in restaurants">
-								<md-button ui-sref="partner.editrest({restaurant: restaurant})">
+								<md-button ui-sref="partner.editrest({restaurant: restaurant._id})">
 									{{restaurant.name}}
 								</md-button>
 							</md-menu-item>
@@ -39,29 +39,12 @@
             </button>
             <md-menu-content>
               <md-menu-item ng-repeat="restaurant in restaurants">
-                <md-button ui-sref="partner.analyzerest({restaurant: restaurant})">
+                <md-button ui-sref="partner.analyzerest({restaurant: restaurant._id})">
                   {{restaurant.name}}
                 </md-button>
               </md-menu-item>
             </md-menu-content>
           </md-menu>
-          <md-menu>
-						<button ng-click="$mdOpenMenu()">
-							Contact Customers
-						</button>
-						<md-menu-content>
-							<md-menu-item>
-								<md-button ng-click="sendDeal($event)">
-									Send Deal
-								</md-button>
-							</md-menu-item>
-							<md-menu-item>
-								<md-button ng-click="notify($event)">
-									Send Notification
-								</md-button>
-							</md-menu-item>
-						</md-menu-content>
-					</md-menu>
 				</md-menu-bar>
 			</md-toolbar>
 		</md-sidenav>

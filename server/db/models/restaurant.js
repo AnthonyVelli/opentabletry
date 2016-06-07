@@ -27,7 +27,6 @@ var restaurantSchema = new Schema({
   seating: {type: Schema.Types.Mixed},
   contact: {type: Schema.Types.ObjectId, ref: 'User'},
   reservations: [reservationSchema],
-  fans: [{type: Schema.Types.ObjectId, ref: 'User'}],
   history: {type: Schema.Types.Mixed},
   observations: [{type: Schema.Types.Mixed}],
   observationHeaders: []
