@@ -8,7 +8,6 @@ var UserModel = mongoose.model('User');
 
 var ENABLED_AUTH_STRATEGIES = [
     'local',
-    'yelp',
     //'twitter',
     //'facebook',
     //'google'
