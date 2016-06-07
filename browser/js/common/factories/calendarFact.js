@@ -14,11 +14,8 @@ app.factory('CalendarFact', () => {
     businessWeekends: true,
     showNonBusiness: false,
 		resources: [],
-    autoRefreshEnabled: true,
-    autoRefreshInterval: 10,
     treeAutoExpand: false,
-    dynamicLoading: true,
-    treeEnabled: true,
+    treeEnabled: false,
 		timeHeaders: [
       { groupBy: "Day"},
 			{ groupBy: "Hour", format: 'hh:mm tt'}
