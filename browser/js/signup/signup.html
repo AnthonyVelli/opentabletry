@@ -12,9 +12,7 @@
         <label for="signup-password">Password</label>
         <input type="password" ng-model="signup.password" class="form-control" id="signup-password" placeholder="Password">
     </div>
-
-    <add-rest ng-show='url==="/signup-partner"' signup='signup' seating='seating'></add-rest>
-
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button ng-show='url==="/signup"' type="submit" class="btn btn-default">Submit</button>
 </form>
+<add-rest ng-show='url==="/signup-partner"' submitcall='submitcall' restaurant='restaurant'></add-rest>
 

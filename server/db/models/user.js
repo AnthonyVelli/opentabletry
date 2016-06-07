@@ -28,13 +28,14 @@ schema.methods.sanitize = function () {
     return _.omit(this.toJSON(), ['password', 'salt']);
 };
 function createAll(user) {
+  let User = this;
     if (user.restaurants){
         let newRest = user.restaurants;
         delete user.restaurants;
-        return createPartner(user, newRest, this);
-    } else {
-        return this.create(user);
+        console.log(user);
+        return createPartner(user, newRest, User);
     }
+    return User.create(user);
 }
 
 // generateSalt, encryptPassword and the pre 'save' and 'correctPassword' operations
@@ -70,10 +71,10 @@ function createPartner(partner, newRest, User) {
     return User.create(partner)
     .then(newUsr => {
         createdUsr = newUsr;
-        newRest.contact = newUsr;
+        newRest.contact = newUsr._id;
         return Restaurant.create(newRest); })
     .then(createdRest => {
-        createdUsr.restaurants = [createdRest];
+        createdUsr.restaurants.push(createdRest);
         return createdUsr.save(); })
     .then(updatedUsr => updatedUsr);
 }

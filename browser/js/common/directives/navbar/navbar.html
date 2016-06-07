@@ -7,7 +7,7 @@
                 </li>
             </ul>
             <md-button layout-align="center center" ng-show="!user" ui-sref="login" class="btn login-button">Login</md-button>
-            <md-button layout-align="center center" ng-show="!user" ui-sref="signup" class="btn login-button">Signup</md-button>
+            <md-button layout-align="center center" ng-show="!user" ui-sref="signup-partner" class="btn login-button">Signup</md-button>
             <div layout="row" layout-align="center center" ng-show="user">
                 <h4>Welcome, {{ user.email }}!</h4>
                 <md-button class="md-warn" ng-click="logout()">Logout</md-button>
