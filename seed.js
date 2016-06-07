@@ -107,22 +107,22 @@ var seedRestaurants = function () {
         },
         reservations: [
             {
-            start: '2016-06-06T15:30:00',
-            end: '2016-06-06T17:30:00',
+            start: '2016-06-08T15:30:00',
+            end: '2016-06-08T17:30:00',
             id: 6,
             resource: '4',
             text: 'brehnhoffer'
           },
           {
-            start: '2016-06-06T16:30:00',
-            end: '2016-06-06T18:30:00',
+            start: '2016-06-08T16:30:00',
+            end: '2016-06-08T18:30:00',
             id: 7,
             resource: '4',
             text: 'jones'
           },
           {
-            start: '2016-06-06T15:30:00',
-            end: '2016-06-06T17:00:00',
+            start: '2016-06-08T15:30:00',
+            end: '2016-06-08T17:00:00',
             id: 8,
             resource: '4',
             text: 'smith'
@@ -147,29 +147,29 @@ var seedRestaurants = function () {
         },
         reservations: [
             {
-            start: '2016-06-06T15:30:00',
-            end: '2016-06-06T17:30:00',
+            start: '2016-06-08T15:30:00',
+            end: '2016-06-08T17:30:00',
             id: 2,
             resource: '6',
             text: 'kleinman'
           },
           {
-            start: '2016-06-06T16:30:00',
-            end: '2016-06-06T18:30:00',
+            start: '2016-06-08T16:30:00',
+            end: '2016-06-08T18:30:00',
             id: 3,
             resource: '4',
             text: 'escadara'
           },
           {
-            start: '2016-06-06T15:30:00',
-            end: '2016-06-06T17:00:00',
+            start: '2016-06-08T15:30:00',
+            end: '2016-06-08T17:00:00',
             id: 4,
             resource: '4',
             text: 'ronson'
           },
           {
-            start: '2016-06-06T17:30:00',
-            end: '2016-06-06T19:00:00',
+            start: '2016-06-08T17:30:00',
+            end: '2016-06-08T19:00:00',
             id: 5,
             resource: '2',
             text: 'ronson'
